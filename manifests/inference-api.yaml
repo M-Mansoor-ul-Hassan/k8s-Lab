@@ -1,4 +1,3 @@
-cat <<'YAML' | k apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,5 +34,3 @@ metadata:
 spec:
   selector: {app: inference-api}
   ports: [{port: 80, targetPort: 80}]
-YAML
-k get pods -n practice-a
