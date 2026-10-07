@@ -1,4 +1,3 @@
-cat > onboard.sh <<'EOF'
 #!/bin/bash
 # Usage: ./onboard.sh <practice> <cost-center>
 P=$1; CC=$2
@@ -78,7 +77,3 @@ spec:
   - from:
     - podSelector: {}
 YAML
-EOF
-chmod +x onboard.sh
-./onboard.sh practice-a cc-1001
-./onboard.sh practice-b cc-2002
