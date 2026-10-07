@@ -1,0 +1,39 @@
+cat <<'YAML' | k apply -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-api
+  namespace: practice-a
+  labels: {app: inference-api, practice: practice-a}
+spec:
+  replicas: 3
+  selector:
+    matchLabels: {app: inference-api}
+  template:
+    metadata:
+      labels: {app: inference-api, practice: practice-a}
+    spec:
+      containers:
+      - name: api
+        image: nginx
+        ports: [{containerPort: 80}]
+        resources:
+          requests: {cpu: 100m, memory: 128Mi}
+          limits: {cpu: 200m, memory: 256Mi}
+        readinessProbe:
+          httpGet: {path: /, port: 80}
+          periodSeconds: 5
+        livenessProbe:
+          httpGet: {path: /, port: 80}
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-api
+  namespace: practice-a
+spec:
+  selector: {app: inference-api}
+  ports: [{port: 80, targetPort: 80}]
+YAML
+k get pods -n practice-a
